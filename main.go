@@ -2,28 +2,35 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"os/exec"
 )
 
 func main() {
 	lambdaNames := []string{
-		"lambdaName",
+		"user_authentication",
 	}
 	for _, lambda := range lambdaNames {
-		cmd := exec.Command("./"+lambda, "GOOS=linux GOARCH=amd64 go build -o main main.go")
-		res, err := cmd.Output()
+		cmd := exec.Command("go", "build", "-o", "main", "main.go")
+		cmd.Dir = "./" + lambda
+		_, err := cmd.Output()
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println(res)
-		cmd = exec.Command("./"+lambda, "zip main.zip main")
-		res, err = cmd.Output()
+		cmd = exec.Command("zip", "main.zip", "main")
+		cmd.Dir = "./" + lambda
+		_, err = cmd.Output()
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println(string(res))
+
+		e := os.Remove("./" + lambda + "/main")
+		if e != nil {
+			log.Fatal(e)
+		}
 	}
 
 	fmt.Println("lambdas created successfully")
