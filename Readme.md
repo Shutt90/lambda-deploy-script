@@ -7,7 +7,7 @@ This will create the binary file.
 For unix users you will need to make this executable by running the following command
 (`sudo chmod +x main`)
 
-You should then be able to run the deploy script as long as the position is within the root directory of your lambdas.
+You should then be able to run the deploy script as long as the position is within the root directory of your lambdas. <br />
 -lambdas <br/>
  deploy <br/>
 --some lamda <br/>
