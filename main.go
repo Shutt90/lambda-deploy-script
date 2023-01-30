@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	lambdaNames := []string{
-		"user_authentication",
-	}
+	lambdaNames := []string{}
+	lambdaNames = recursiveAdd(lambdaNames)
+
 	for _, lambda := range lambdaNames {
 		cmd := exec.Command("go", "build", "-o", "main", "main.go")
 		cmd.Dir = "./" + lambda
@@ -34,5 +34,18 @@ func main() {
 	}
 
 	fmt.Println("lambdas created successfully")
+}
 
+func recursiveAdd(arr []string) []string {
+	var lambdaName string
+	fmt.Printf("Name of lambda: \n(Type exit to finish)\n")
+	fmt.Scan(&lambdaName)
+
+	if lambdaName == "exit" {
+		return arr
+	}
+
+	arr = append(arr, lambdaName)
+
+	return recursiveAdd(arr)
 }
